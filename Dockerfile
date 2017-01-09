@@ -11,6 +11,8 @@ MAINTAINER Alex K, allixender@googlemail.com
 # ENV WWW_DIR /var/www/html
 
 ADD build-script.sh /opt
+ADD CMakeLists.otb.patch /opt
+
 RUN chmod +x /opt/build-script.sh \
   && sync \
   && /opt/build-script.sh

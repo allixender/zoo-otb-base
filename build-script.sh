@@ -62,7 +62,7 @@ wget -nv -O $BUILD_ROOT/OTB-4.2.1.tgz https://storage.googleapis.com/smart-serve
     -DOTB_USE_CURL=ON \
     -DBUILD_EXAMPLES=OFF \
     -DBUILD_TESTING=OFF ../ >../configure.out.txt \
-  && make -j2 && make install
+  && make -j2 && make install || exit 1
 
 export ITK_AUTOLOAD_PATH=/usr/lib/otb/applications
 echo /usr/lib/otb >> /etc/ld.so.conf.d/otb.conf
@@ -71,6 +71,11 @@ echo /usr/lib/otb/applications >> /etc/ld.so.conf.d/otb.conf
 
 # Add demo configs orfeo
 # otb2zcfg utility
+# patching OTBIO / OTBImageIO
+
+cp /opt/CMakeLists.otb.patch $BUILD_ROOT/thirds/otb2zcfg \
+  && patch $BUILD_ROOT/thirds/otb2zcfg < /opt/CMakeLists.otb.patch 
+
 cd $BUILD_ROOT/thirds/otb2zcfg \
   && mkdir build \
   && cd build \
@@ -78,11 +83,11 @@ cd $BUILD_ROOT/thirds/otb2zcfg \
   && make \
   && mkdir zcfgs \
   && cd zcfgs \
-  && ../otb2zcfg
+  && ../otb2zcfg || exit 1
 # otb2zcfg does not exit cleanly for some reason
 
 mkdir -p $CGI_DIR/OTB \
-  && cp -r *zcfg $CGI_DIR/OTB
+  && cp -r *zcfg $CGI_DIR/OTB || exit 1
 # cp *zcfg /location/to/your/cgi-bin/
 
 # however, auto additonal packages won't get removed
