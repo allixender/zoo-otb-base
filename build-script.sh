@@ -74,7 +74,7 @@ echo /usr/lib/otb/applications >> /etc/ld.so.conf.d/otb.conf
 # patching OTBIO / OTBImageIO
 
 cp /opt/CMakeLists.otb.patch $BUILD_ROOT/thirds/otb2zcfg \
-  && patch $BUILD_ROOT/thirds/otb2zcfg < /opt/CMakeLists.otb.patch 
+  && patch $BUILD_ROOT/thirds/otb2zcfg/CMakeLists.txt < /opt/CMakeLists.otb.patch || exit 1
 
 cd $BUILD_ROOT/thirds/otb2zcfg \
   && mkdir build \
