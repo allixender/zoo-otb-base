@@ -66,7 +66,7 @@ wget -nv -O $BUILD_ROOT/OTB-4.2.1.tgz https://storage.googleapis.com/smart-serve
 
 export ITK_AUTOLOAD_PATH=/usr/lib/otb/applications
 echo /usr/lib/otb >> /etc/ld.so.conf.d/otb.conf
-echo /usr/lib/otb/applications >> /etc/ld.so.conf.d/otb.conf
+# echo /usr/lib/otb/applications >> /etc/ld.so.conf.d/otb.conf
 /sbin/ldconfig
 
 # Add demo configs orfeo
@@ -83,7 +83,7 @@ cd $BUILD_ROOT/thirds/otb2zcfg \
   && make \
   && mkdir zcfgs \
   && cd zcfgs \
-  && ../otb2zcfg || exit 1
+  && ../otb2zcfg 
 # otb2zcfg does not exit cleanly for some reason
 
 mkdir -p $CGI_DIR/OTB \
